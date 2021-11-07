@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--CSS BOOTSTRAP-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+        <title>UBlog</title>
+    </head>
+<body style="background-color:#454DDE;">
+	
+    <!-- NAVBAR -->
+	<nav class="navbar navbar-dark bg-dark">
+		<a class="navbar-brand" style="margin-left: 20px" href="#">
+			<img
+					src="./assets/Ublog_logo.png"
+					width="120"
+					height="50"
+					class="d-inline-block align-top"
+					alt=""
+				/>
+			  </a>
+			  <ul class="nav">
+				<li class="nav-item">
+				  <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="load.html">Nuevo</a>
+				</li>
+				
+			  </ul>	  
+	</nav>
+
+	<div class="container">
+		<div class="row"> 
+		  <div class="col">
+			<div class="d-flex flex-column" id="objetoI">
+				<h1>Aqui van las imagenes</h1>
+			</div>
+		  </div>
+		  <div class="col">
+			<div class="d-flex flex-column" id="objetoV">
+				<h1>Aqui van los videos</h1>           
+			<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qwgTtCXG0Ec" frameborder="0" allowfullscreen></iframe>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	
+   
+	
+	<script>
+
+		let obj = document.getElementById("objetoI")
+		let objV = document.getElementById("objetoV")
+
+
+		//carga de imagenes
+		getArch();
+		function getArch(){
+			fetch("http://localhost:5000/cargaI")
+			.then((response) => response.json())
+			.then((data) =>{
+				obj.innerHTML ="";
+				data.forEach((doc) => {
+							let card = document.createElement("div");
+							card.className = "card m-2";
+							card.id = doc.url;
+							let cardBody = document.createElement("div");
+							cardBody.className = "card-body";
+							let docUrl = document.createElement("img")
+							docUrl.className = "card-title";
+							docUrl.src = doc.url;
+							let docDate = document.createElement("p");
+							docDate.className = "card-subtitle";
+							docDate.innerText = "Fecha: " + doc.date;
+							let docCategory = document.createElement("p");
+							docCategory.innerText = doc.category;
+							let vote = document.createElement("BUTTON");
+							vote.className = "btn btn-primary";
+							vote.innerText = "LIKE";
+							var contador = 0;
+							vote.onclick = function()  {
+								contador++;
+								vote.innerText = "LIKE "+contador;
+								
+							};
+							cardBody.appendChild(docUrl);
+							cardBody.appendChild(docDate);
+							cardBody.appendChild(docCategory);
+							cardBody.appendChild(vote);
+							card.appendChild(cardBody);
+							obj.appendChild(card);
+						});
+					})
+					.catch((error) => console.error(error));
+			}
+		//carga de video
+		getVid();
+		function getVid(){
+			fetch("http://localhost:5000/cargaV")
+			.then((response) => response.json())
+			.then((data)=>{
+				objV.innerHTML = "";
+				data.forEach((vid)=>{
+					let cardV = document.createElement("div");
+					cardV.className = "card m-2";
+					cardV.id = vid.url;
+					let cardvBody = document.createElement("div");
+					cardvBody.className = "card-body";
+					let vidUrl = document.createElement("iframe")
+					vidUrl.className = "embed-responsive-item";
+					vidUrl.height = "344"
+
+					vidUrl.src = vid.url;
+					
+					let vidDate = document.createElement("p");
+					vidDate.className = "card-subtitle";
+					vidDate.innerText = "Fecha: "+vid.date;
+					let vidCategory = document.createElement("p");
+					vidCategory.innerText = vid.category;
+					let vote = document.createElement("BUTTON");
+							vote.className = "btn btn-primary";
+							vote.innerText = "LIKE";
+							var contador = 0;
+							vote.onclick = function()  {
+								contador++;
+								vote.innerText = "LIKE "+contador;
+								
+							};
+							cardvBody.appendChild(vidUrl);
+							cardvBody.appendChild(vidDate);
+							cardvBody.appendChild(vidCategory);
+							cardvBody.appendChild(vote);
+							cardV.appendChild(cardvBody);
+							objV.appendChild(cardV);
+						
+				})
+
+			})
+			.catch((error) => console.error(error));
+		}	
+
+	</script>
+	<!--SCRIPT BOOTSTRAP-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+</html>
