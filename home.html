@@ -60,7 +60,7 @@
 		//carga de imagenes
 		getArch();
 		function getArch(){
-			fetch("http://localhost:5000/cargaI")
+			fetch("https://ublog201807185.herokuapp.com/cargaI")
 			.then((response) => response.json())
 			.then((data) =>{
 				obj.innerHTML ="";
@@ -100,7 +100,7 @@
 		//carga de video
 		getVid();
 		function getVid(){
-			fetch("http://localhost:5000/cargaV")
+			fetch("https://ublog201807185.herokuapp.com/cargaV")
 			.then((response) => response.json())
 			.then((data)=>{
 				objV.innerHTML = "";
